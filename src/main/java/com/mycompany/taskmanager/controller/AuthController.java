@@ -48,7 +48,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody SignInRequest signInRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getUsername(), signInRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtil.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -58,16 +58,14 @@ public class AuthController {
         JwtResponse res = new JwtResponse();
         res.setToken(jwt);
         res.setId(userDetails.getId());
-        res.setUsername(userDetails.getUsername());
+        res.setFirstName(userDetails.getFirstName());
+        res.setFirstName(userDetails.getLastName());
         res.setRoles(roles);
         return ResponseEntity.ok(res);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("username is already taken");
-        }
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("email is already taken");
         }
@@ -79,7 +77,8 @@ public class AuthController {
         }
         roles.add(userRole.get());
         User user = new User();
-        user.setUsername(signUpRequest.getUsername());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(hashedPassword);
         user.setRoles(roles);
