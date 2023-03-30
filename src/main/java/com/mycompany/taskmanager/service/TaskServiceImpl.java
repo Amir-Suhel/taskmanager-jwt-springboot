@@ -4,11 +4,9 @@ import com.mycompany.taskmanager.dto.ErrorDTO;
 import com.mycompany.taskmanager.dto.TaskDTO;
 import com.mycompany.taskmanager.exception.BusinessException;
 import com.mycompany.taskmanager.model.Task;
-import com.mycompany.taskmanager.model.User;
 import com.mycompany.taskmanager.repository.TaskRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
