@@ -59,7 +59,7 @@ public class AuthController {
         res.setToken(jwt);
         res.setId(userDetails.getId());
         res.setFirstName(userDetails.getFirstName());
-        res.setFirstName(userDetails.getLastName());
+        res.setLastName(userDetails.getLastName());
         res.setRoles(roles);
         return ResponseEntity.ok(res);
     }
